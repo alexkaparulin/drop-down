@@ -1,28 +1,64 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import './App.css';
 
+import DropDown from './component/DropDown';
+
 class App extends Component {
+  
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      showDropDown : false,
+      arr:['MY PROFILE','MESSAGES','NOTIFICATIONS','EVENT','SETTINGS','LOGOUT'],
+      title:'GET Free Money',
+      chooseBackGround:'#323232',
+      chooseFont:'#fff',
+      chooseFontSize:'12px'
+    }
+
+  }
+
+  toggleDropDown=(e)=>{
+      e.preventDefault();
+
+      this.setState({ showDropDown: true }, () => {
+        document.addEventListener('click', this.closeMenu);
+        console.log(this.state.showDropDown);
+      });
+  }
+  
+  closeMenu=(e)=> {
+      this.setState({ showDropDown: false }, () => {
+        document.removeEventListener('click', this.closeMenu);
+        console.log(this.state.showDropDown);        
+      });  
+  }
+
   render() {
+
+    const { showDropDown,
+            title,
+            chooseBackGround
+            ,arr
+            ,chooseFont,
+            chooseFontSize } = this.state;  
+
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
+      <div>
+        <button onClick={this.toggleDropDown}>{title}</button>
+        { showDropDown ? 
+            <DropDown 
+              list={arr}
+              BKColor={chooseBackGround}
+              MyFontColor={chooseFont}
+              MyFontSize ={chooseFontSize}
+            /> 
+        : ''}
       </div>
     );
   }
 }
 
 export default App;
+
